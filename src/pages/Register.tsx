@@ -29,9 +29,15 @@ const RegisterPage = () => {
     console.log(data);
     setIsLoading(true);
     try {
-      const response = await axiosInstance.post('/auth/local/register', data);
-      console.log(response.data);
-      toast.success("You will navigate to the login page in 4 seconds");
+      const {status} = await axiosInstance.post('/auth/local/register', data);
+      if (status === 200) 
+      toast.success("You will navigate to the login page in 2 seconds", {
+        duration: 1500,
+      });
+      
+      setTimeout(() => {
+        window.location.href = '/login';
+      }, 2000);
     } catch (error) {
       const errorObj = error as AxiosError<IErrorResponse>;
       toast.error(`${errorObj?.response?.data.error.message}`, {
